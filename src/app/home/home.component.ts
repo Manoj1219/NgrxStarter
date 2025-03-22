@@ -62,12 +62,14 @@ export class HomeComponent implements OnInit {
         const user = this.users.at(i).value;
         delete user.isEditing;
         delete user.isLoading;
+        this.users.at(i).disable();
         this.users.at(i).patchValue({ isLoading: true });
         this.us.updateUser(user).subscribe({
             next: () => {
                 this.store.dispatch(updateUser({ user: { ...user } }));
                 this.users.at(i).patchValue({ ...user, isEditing: false, isLoading: false });
                 this.users.at(i).reset(this.users.at(i).value);
+                this.users.at(i).enable();
             },
             error: (err: any) => console.log(err)
         });
@@ -81,6 +83,7 @@ export class HomeComponent implements OnInit {
                     if (users) {
                         const userFromStore = users[i];
                         this.users.at(i).patchValue({ ...userFromStore, isEditing: false });
+                        this.users.at(i).reset(this.users.at(i).value);
                     }
                 }
             });

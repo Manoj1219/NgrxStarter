@@ -5,43 +5,40 @@
     <form [formGroup]="userForm">
         <table class="fc-table">
             <thead>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Actions</th>
-                <th>Loading</th>
+                <!-- <th>ID</th> -->
+                <th class="fc-width--20">Name</th>
+                <th class="fc-width--30">Username</th>
+                <th class="fc-width--30">Email</th>
+                <th class="fc-width--20">Actions</th>
             </thead>
             <tbody>
                 <tr *ngFor="let user of users.controls; let i = index" [formGroup]="users.at(i)">
-                    <td>
+                    <!-- <td>
                         <span>{{ user.get('id')?.value }}</span>
-                    </td>
+                    </td> -->
                     <td>
-                        <input *ngIf="user.get('isEditing')?.value" type="text" formControlName="name" />
+                        <input class="fc-input" *ngIf="user.get('isEditing')?.value" type="text" formControlName="name" />
                         <span *ngIf="!user.get('isEditing')?.value">{{ user.get('name')?.value }}</span>
                     </td>
                     <td>
-                        <input *ngIf="user.get('isEditing')?.value" type="text" formControlName="username" />
+                        <input class="fc-input" *ngIf="user.get('isEditing')?.value" type="text" formControlName="username" />
                         <span *ngIf="!user.get('isEditing')?.value">{{ user.get('username')?.value }}</span>
                     </td>
                     <td>
-                        <input *ngIf="user.get('isEditing')?.value" type="text" formControlName="email" />
+                        <input class="fc-input" *ngIf="user.get('isEditing')?.value" type="text" formControlName="email" />
                         <span *ngIf="!user.get('isEditing')?.value">{{ user.get('email')?.value }}</span>
                     </td>
-                    <td>
-                        <div *ngIf="user.get('isEditing')?.value">
-                            <button (click)="toggleEdit(i)">Cancel</button>
-                            <button (click)="saveUser(i)" type="submit" [disabled]="!user.dirty">Save</button>
-                        </div>
+                    <td *ngIf="!user.get('isLoading')?.value">
                         <div *ngIf="!user.get('isEditing')?.value">
-                            <button (click)="toggleEdit(i)">Edit</button>
+                            <button class="fc-btn fc-btn--primary_outlined" (click)="toggleEdit(i)">Edit</button>
+                        </div>
+                        <div class="fc-btn-grid" *ngIf="user.get('isEditing')?.value">
+                            <button class="fc-btn fc-btn--primary_outlined" (click)="toggleEdit(i)" type="reset">Cancel</button>
+                            <button class="fc-btn fc-btn--primary" (click)="saveUser(i)" type="submit" [disabled]="!user.dirty">Save</button>
                         </div>
                     </td>
-                    <td>
-                        <div *ngIf="user.get('isLoading')?.value">
-                            <p>Loading...</p>
-                        </div>
+                    <td class="fc-text--center" *ngIf="user.get('isLoading')?.value">
+                        <i class="fa-solid fa-spin fa-spinner"></i>
                     </td>
                 </tr>
             </tbody>
