@@ -73,6 +73,7 @@ body {
 .fc-table th, .fc-table td {
     border: 1px solid #ddd;
     padding: 8px;
+    height: 3.25rem;
     text-align: left;
 }
 .fc-table th {
