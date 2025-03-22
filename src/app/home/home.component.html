@@ -1,0 +1,50 @@
+<div *ngIf="isLoading; else content;" class="loading-overlay">
+    <p>Loading...</p>
+</div>
+<ng-template #content>
+    <form [formGroup]="userForm">
+        <table class="fc-table">
+            <thead>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Actions</th>
+                <th>Loading</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users.controls; let i = index" [formGroup]="users.at(i)">
+                    <td>
+                        <span>{{ user.get('id')?.value }}</span>
+                    </td>
+                    <td>
+                        <input *ngIf="user.get('isEditing')?.value" type="text" formControlName="name" />
+                        <span *ngIf="!user.get('isEditing')?.value">{{ user.get('name')?.value }}</span>
+                    </td>
+                    <td>
+                        <input *ngIf="user.get('isEditing')?.value" type="text" formControlName="username" />
+                        <span *ngIf="!user.get('isEditing')?.value">{{ user.get('username')?.value }}</span>
+                    </td>
+                    <td>
+                        <input *ngIf="user.get('isEditing')?.value" type="text" formControlName="email" />
+                        <span *ngIf="!user.get('isEditing')?.value">{{ user.get('email')?.value }}</span>
+                    </td>
+                    <td>
+                        <div *ngIf="user.get('isEditing')?.value">
+                            <button (click)="toggleEdit(i)">Cancel</button>
+                            <button (click)="saveUser(i)" type="submit" [disabled]="!user.dirty">Save</button>
+                        </div>
+                        <div *ngIf="!user.get('isEditing')?.value">
+                            <button (click)="toggleEdit(i)">Edit</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="user.get('isLoading')?.value">
+                            <p>Loading...</p>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</ng-template>
